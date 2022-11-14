@@ -14,7 +14,7 @@ class Point2D{
     Point2D operator+(const Point2D& rhs);
     Point2D operator-(const Point2D& rhs);
     Point2D operator*(double scalar) const;
-    Point2D operator/(double scalar);
+    Point2D operator/(double scalar) const;
 
 
 
