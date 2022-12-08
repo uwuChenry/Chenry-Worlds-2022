@@ -19,8 +19,9 @@ namespace RRLib
     }
 
     double PID::calculate (double error){
-        if (fabs(error) <= gains.windup) integral += error;
-        else integral = 0;
+        integral = (fabs(error) <= gains.windup) ? integral += error : 0;
+        //if (fabs(error) <= gains.windup) integral += error;
+        //else integral = 0;
         integral *= (std::signbit(error) == std::signbit(lastError));
         integral = std::clamp(integral, -gains.limit, gains.limit);
         derivative = error - lastError;
