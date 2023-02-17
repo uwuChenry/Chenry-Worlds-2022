@@ -32,6 +32,10 @@ namespace RRLib{
         double FeedForwardv2::getKV(){
             return kV;
         }
+
+
+
+        
         double FeedForwardv3::calculate(double vel, double accel, double posError, double velError){
             double accelOut;
             double kSOut;
