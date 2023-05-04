@@ -1,7 +1,6 @@
 #pragma once
 
 #include "rrlib/motion/odometry.hpp"
-#include "rrlib/motion/ProfileController.hpp"
 #include "rrlib/motion/betterLinearMP.hpp"
 #include "rrlib/motion/Scurve.hpp"
 
