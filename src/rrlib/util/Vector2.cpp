@@ -63,7 +63,7 @@ QLength Vector2::distanceBetween(Vector2 a, Vector2 b) {
 }
 
 QAngle Vector2::angleBetween(Vector2 a, Vector2 b) {
-    subtract(a, b).getTheta();
+    return subtract(a, b).getTheta();
 }
 
 QLength Vector2::dot(Vector2 a, Vector2 b) {

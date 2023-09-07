@@ -40,19 +40,19 @@ std::shared_ptr<ChassisController> driveChassis = ChassisControllerBuilder()
 std::shared_ptr<ChassisModel> driveChassisPtr = driveChassis->getModel();
 
 // Creates an odometry object
-TwoWheelOdometry odometry(driveChassisPtr, trackingWheelsScales);
+//TwoWheelOdometry odometry(driveChassisPtr, trackingWheelsScales);
 // Creates a pointer to the odometry object, some controllers want pointers
-auto odometryPtr = std::shared_ptr<RRLib::PoseEstimator>(&odometry);
+//auto odometryPtr = std::shared_ptr<RRLib::PoseEstimator>(&odometry);
 
 
 
 // this creats a task which constantly calculates the odometry
-pros::Task odometryUpdateTask([&] {
-        while(1){
-            odometry.update();
-            pros::delay(10);
-        }
-    });
+// pros::Task odometryUpdateTask([&] {
+//         while(1){
+//             odometry.update();
+//             pros::delay(10);
+//         }
+//     });
 
 // calculate below:
 // radius of a 4" omni is 2.0625"
@@ -213,24 +213,24 @@ void movePID(QLength distance){
 
 
 
-void turnToOdom(QAngle target){
-    auto su = Settled(200, 1, 0.2);
-    pidGains turnGains {0.5, 0, 0, 48, 15};
-    PID turnPID(turnGains);
-    double error, mappedError;
-    do {
-        odometry.update();
-        error = target.convert(degree) - odometry.getPose().heading.convert(degree);
-        mappedError = math::constrainAngleDouble(error);
-        double output = turnPID.calculate(mappedError)/200;
-        pros::lcd::print(1, "error %f", error);
-        pros::lcd::print(2, "output %f", output);
-        pros::lcd::print(3, "integral %f", turnPID.getIntegral());
-        driveChassisPtr->arcade(0, output);
-        delay(10);
-    } while (!su.isSettled(mappedError));
-    driveChassisPtr->stop();
-}
+// void turnToOdom(QAngle target){
+//     auto su = Settled(200, 1, 0.2);
+//     pidGains turnGains {0.5, 0, 0, 48, 15};
+//     PID turnPID(turnGains);
+//     double error, mappedError;
+//     do {
+//         odometry.update();
+//         error = target.convert(degree) - odometry.getPose().heading.convert(degree);
+//         mappedError = math::constrainAngleDouble(error);
+//         double output = turnPID.calculate(mappedError)/200;
+//         pros::lcd::print(1, "error %f", error);
+//         pros::lcd::print(2, "output %f", output);
+//         pros::lcd::print(3, "integral %f", turnPID.getIntegral());
+//         driveChassisPtr->arcade(0, output);
+//         delay(10);
+//     } while (!su.isSettled(mappedError));
+//     driveChassisPtr->stop();
+// }
 
 void resetMotorEncoder(){
     rightMotors.tarePosition();
@@ -242,22 +242,22 @@ void printMotorEncoders(){
     pros::lcd::print(7, "right motor enc %f", rightMotors.getPosition());
 }
 
-void printOdomEncoders(){
-    //auto newSensorVals = driveChassisPtr->getSensorVals();
-    //pros::lcd::print(6, "left odom enc %d", newSensorVals[0]);
-    //pros::lcd::print(7, "right odom enc %d", newSensorVals[1]);
-    printf("left %f right %f \n", odometry.getLeftEnc(), odometry.getRightEnc());
-}
+// void printOdomEncoders(){
+//     //auto newSensorVals = driveChassisPtr->getSensorVals();
+//     //pros::lcd::print(6, "left odom enc %d", newSensorVals[0]);
+//     //pros::lcd::print(7, "right odom enc %d", newSensorVals[1]);
+//     printf("left %f right %f \n", odometry.getLeftEnc(), odometry.getRightEnc());
+// }
 
-void printOdomPos(){
-    printf("gyro angle %f", inertialSensor.get_heading());
-    printf("x %f, y %f, a %f \n", odometry.getPose().position.getX().convert(centimeter), odometry.getPose().position.getY().convert(centimeter), odometry.getPose().heading.convert(degree));
-}
+// void printOdomPos(){
+//     printf("gyro angle %f", inertialSensor.get_heading());
+//     printf("x %f, y %f, a %f \n", odometry.getPose().position.getX().convert(centimeter), odometry.getPose().position.getY().convert(centimeter), odometry.getPose().heading.convert(degree));
+// }
 
-void resetOdomEncoders(){
-    //driveChassisPtr->resetSensors();
-    odometry.reset();
-}
+// void resetOdomEncoders(){
+//     //driveChassisPtr->resetSensors();
+//     odometry.reset();
+// }
 void resetGyro(){
     inertialSensor.reset();
 }
